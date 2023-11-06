@@ -5,8 +5,8 @@ const {
   logInUser,
   getuserData,
 } = require("../controller/userController");
-const verifyToken = require("../middlewerw/verifyToken");
-const { useRefreshToken } = require("../middlewerw/refreshToken");
+const verifyToken = require("../middleware/verifyToken");
+const { useRefreshToken } = require("../middleware/refreshToken");
 router.route("/register").post(registerUser);
 router.route("/login-user").post(logInUser);
 router.route("/userData").post(verifyToken, getuserData);
