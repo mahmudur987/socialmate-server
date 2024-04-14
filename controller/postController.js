@@ -22,7 +22,7 @@ exports.getPostById = async (req, res) => {
 exports.getPostByEmail = async (req, res) => {
   try {
     const email = req.query.email;
-    console.log(email);
+
     const post = await Post.find({ postUserEmail: email });
     return res.send({ status: "ok", count: post.length, data: post });
   } catch (error) {

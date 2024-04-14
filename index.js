@@ -33,6 +33,8 @@ app.use("/", postRoute);
 app.use("/user", useRoute);
 
 // forget password
+const jwt_secret =
+  "f8b6e4857fa015369fe4512a2d05f73fd297f79884936e93a62e27c36df4e1ec771e04359972304d56438e572b93737d34bb8ba05e80b0cd7ef6b80eb9a4dd2b";
 app.post("/forgot-password", async (req, res) => {
   const { email } = req.body;
   const oldUser = await User.findOne({ email });
@@ -43,7 +45,7 @@ app.post("/forgot-password", async (req, res) => {
   const secret = jwt_secret + oldUser.password;
 
   const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret);
-  const link = `https://socialmate-server.vercel.app/reset-password/${oldUser._id}/${token}`;
+  const link = `http://localhost:5000/reset-password/${oldUser._id}/${token}`;
   var transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -93,7 +95,6 @@ app.post("/reset-password/:id/:token", async (req, res) => {
   const { confirmpassword } = req.body;
   const olduser = await User.findOne({ _id: id });
 
-  console.log(password, confirmpassword);
   const secret = jwt_secret + olduser.password;
   try {
     const verify = jwt.verify(token, secret);
